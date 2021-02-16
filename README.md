@@ -2,6 +2,17 @@
 
 ### ICS Student Council x Commit the change
 
+## Prerequisites for the workshop
+
+- [Git](https://git-scm.com/downloads)
+- [VSCode](https://code.visualstudio.com/)
+- [Node v14](https://nodejs.org/en/download/)
+- [Postman](https://www.postman.com/downloads/)
+  - Don’t need make an account
+- [Make a MongoDB account](https://www.mongodb.com/cloud/atlas/register)
+- MongoDB Compass (~140 MB)
+  - [Windows](https://downloads.mongodb.com/compass/mongodb-compass-1.25.0-win32-x64.exe)
+  - [MacOs](https://downloads.mongodb.com/compass/mongodb-compass-1.25.0-darwin-x64.dmg)
 ## Goals
 
 - Concepts
@@ -14,26 +25,15 @@
 - Tech
   - Node, Express
   - Mongoose, MongoDB
-  - Postman
+  - Postman, MongoDB Compass 
+- Diagram
+  - ![](./assets/diagram.png)
 
 ## Not Goals
 
 - Coding best practices
 - One-liner cool hax tricks
 - All the weird nuanaces of JavaScript
-
-## Prerequisites for the workshop
-
-- [Git](https://git-scm.com/downloads)
-- [VSCode](https://code.visualstudio.com/)
-- [Node v14](https://nodejs.org/en/download/)
-- [Postman](https://www.postman.com/downloads/)
-  - Don’t need make an account
-- [Make a MongoDB account](https://www.mongodb.com/cloud/atlas/register)
-- MongoDB Compass (~140 MB)
-  - [Windows](https://downloads.mongodb.com/compass/mongodb-compass-1.25.0-win32-x64.exe)
-  - [MacOs](https://downloads.mongodb.com/compass/mongodb-compass-1.25.0-darwin-x64.dmg)
-
 ## Why you should care about API
 
 - Wanna authenticate with google? [API](https://developers.google.com/identity/protocols/oauth2)
@@ -359,39 +359,120 @@ It works great so I'm just gonna commit this code and push it to Github... **BON
     /node_modules
     .env
     ```
-# Connecting everything together
+# Finishing up the API endpoints
 
 ## Create the express route to create a page
-
+- POST /createPage
+- Send JSON in the body
+  ```
+  {
+    "title": "Joe", 
+    "creator": "me", 
+    "desc": "coolbeans", 
+    "links": ["link1", "link2"]
+  }
+  ```
 ```
-POST /createPage
-{title, creator, desc, links}
+app.post('/createPage', (req, res) => {
+    console.log("POST /createPage with body")   
+
+    const title = req.body.title;
+    const desc = req.body.desc;
+    const creator = req.body.creator;
+    const links = req.body.links;
+
+    console.log("Body: ", title, desc, creator, links)   
+
+    const pageModelInstance = new PageModel({
+        title: title,
+        description: desc,
+        creator: creator,
+        links: links
+    });
+
+    pageModelInstance.save()
+        .then(confirmedPage => res.send(confirmedPage))
+})
 ```
 
 ## Create the express route to get a page
-
+- GET /getPage?id=123
+- Sends the id of the page through a query parameter `id`
 ```
-GET /getPage?id=123
+app.get('/getPage', (req, res) => {
+    console.log("GET /getPage")
+
+    const id = req.query.id;
+
+    console.log("Query param: ", id)
+
+    PageModel.findOne({ _id: id })
+        .then(resultPage => res.send(resultPage))
+})
 ```
 
 ## Create the express route to delete a page
-
+- GET /deletePage?id=123
+- Sends the id of the page through a query parameter `id`
 ```
-DELETE /deletePage?id=123
+app.delete('/deletePage', (req, res) => {
+    console.log("DELETE /deletePage")
+
+    const id = req.query.id;
+
+    console.log("Query param: ", id)
+
+    PageModel.findOneAndDelete({ _id: id })
+        .then(resultPage => res.send(resultPage))
+})
 ```
 
 ## Create the express route to add a link
-
+- POST /addLink?id=123
+- Sends the id of the page through a query parameter `id`
+- Send JSON in the body
+  ```
+  {
+    "link": "newLink"
+  }
+  ```
 ```
-POST /addLink?id=123
-{link: 'yelp.com/omomo'}
+app.post('/addLink', (req, res) => {
+    console.log("POST /addLink")
+
+    const id = req.query.id;
+    const link = req.body.link;
+
+    console.log("Query param: ", id)
+    console.log("Body: ", link)   
+
+    PageModel.findOneAndUpdate({ _id: id }, { $push: { links: link } })
+        .then(resultPage => res.send(resultPage))
+})
 ```
 
 ## Create the express route to remove a link
-
+- POST /deleteLink?id=123
+- Sends the id of the page through a query parameter `id`
+- Send JSON in the body
+  ```
+  {
+    "link": "linkToRemove"
+  }
+  ```
 ```
-POST /removeLink?id=123
-{link: 123123}
+app.post('/deleteLink', (req, res) => {
+    console.log("DELETE /deleteLink")
+
+    const id = req.query.id;
+    const link = req.body.link;
+
+    console.log("Query param: ", id)
+    console.log("Body: ", link)  
+
+    PageModel.findOneAndUpdate({ _id: id }, { $pull: { links: link } })
+        .then(resultPage => res.send(resultPage))
+})
 ```
 
 # What's next?

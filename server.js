@@ -14,11 +14,9 @@ const app = express()
 app.use(express.json());
 
 // connect to mongodb
-mongoose.connect(process.env.MONGODB_URI, {});
+mongoose.connect(process.env.MONGODB_URI);
 
-/*
-    this is how you register an endpoint with express framework
-*/
+// this is how you register an endpoint with express framework
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })

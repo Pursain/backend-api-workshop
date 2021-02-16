@@ -1,11 +1,11 @@
-## ICS Student Council. Jam for Change
+# Backend-API-Workshop - Jam for Change
 
-# Backend-API-Workshop
+### ICS Student Council x Commit the change
 
 ## Goals
 
 - Concepts
-  - REST API
+  - APIs
   - GET/POST/DELETE HTTP requests
   - HTTP codes
   - JSON
@@ -16,10 +16,16 @@
   - Mongoose, MongoDB
   - Postman
 
+## Not Goals
+
+- Coding best practices
+- One-liner cool hax tricks
+- All the weird nuanaces of JavaScript
+
 ## Prerequisites for the workshop
 
 - [Git](https://git-scm.com/downloads)
-- [Vscode](https://code.visualstudio.com/)
+- [VSCode](https://code.visualstudio.com/)
 - [Node v14](https://nodejs.org/en/download/)
 - [Postman](https://www.postman.com/downloads/)
   - Don’t need make an account
@@ -49,12 +55,14 @@
   - 400: Client related errors
   - 500: Internal Server Error
 
-## Example API workflows
+## How do APIs work???
+
+![](./assets/api.png)
 
 - Frontend/client -> backend endpoint server -> data source
-- Postman -> node/express -> mongodb
-- Angular -> python/flask -> mySQL
-- Postman -> dog api -> ???
+- Postman -> Node+Express -> MongoDB
+- Angular -> Python+Flask -> MySQL
+- Postman -> Dog api -> ???
 - React -> Azure functions -> RMP endpoint server -> ???
 - RAW html/Javascript -> AWS API Gateway w/ GraphQL -> AWS lambda -> AWS DynamoDB
 
@@ -81,175 +89,203 @@
   ```
 
   - What is this `package.json`?
-
     ```
     {
-        "name": "backend-api-workshop",
-        "version": "1.0.0",
-        "description": "",
-        "main": "index.js",
-        "scripts": {
-            "test": "echo \"Error: no test specified\" && exit 1",
-            "start": "nodemon server.js"
-        },
-        "repository": {
-            "type": "git",
-            "url": "git+https://github.com/Pursain/backend-api-workshop.git"
-        },
-        "author": "",
-        "license": "ISC",
-        "bugs": {
-            "url": "https://github.com/Pursain/backend-api-workshop/issues"
-        },
-        "homepage": "https://github.com/Pursain/backend-api-workshop#readme",
-        "dependencies": {
-            "dotenv": "^8.2.0",
-            "express": "^4.17.1",
-            "mongoose": "^5.11.16",
-            "nodemon": "^2.0.7"
-        }
+      "name": "backend-workshop",
+      "version": "1.0.0",
+      "description": "",
+      "main": "index.js",
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "author": "",
+      "license": "ISC",
+      "dependencies": {
+        "express": "^4.17.1"
+      }
     }
     ```
   - `"dependencies"`: Allows us to add packages from other smart ppl made
     ```
-    npm install some-node-packages
+    npm install some-npm-package
     ```
-  - `"scripts"`: run any cool command line scripts you want to write 
+  - `"scripts"`: run any cool command line scripts you want to write
     ```
     "scripts": {
         ...
-        "dancing-parrots": "curl parrot.live"
+        "party": "curl parrot.live"
         ...
     }
     ```
-  - Install dependencies locally, similar to virtual env in python
 
 - Installing Express
   ```
-  npm install express
+  npm install --save express
   ```
   - Express is a web framework
   - We’ll be using it to create API endpoints
 - Creating the hello world endpoint
-  TODO: GIF
+    ```
+    // importing the express module
+    const express = require('express')
 
-  ````
-  // importing the express module
-  const express = require('express')
+    // initializing the express framework
+    const app = express()
 
-      // initializing the express framework
-      const app = express()
+    // registering an endpoint with express framework
+    app.get('/', (req, res) => {
+        res.send('Hello World!')
+    })
 
-      // registering an endpoint with express framework
-      app.get('/', (req, res) => {
-          res.send('Hello World!')
-      })
-
-      // allowing a port to access the express framework
-      app.listen(3000, () => {
-          console.log(`Example app listening at http://localhost:3000`)
-      })
-      ```
-
-  ````
+    // allowing a port to access the express framework
+    app.listen(3000, () => {
+        console.log(`Example app listening at http://localhost:3000`)
+    })
+    ```
 
 - Playing with Express
-  TODO: GIF - Get request with a query param - GET `http://localhost:3000/canIGetSomeZots`
 
-  ````
-  app.get('/canIGetSomeZots', (req, res) => {
-  console.log("GET /canIGetSomeZots", req.query)
+  - Get request with a query param
 
-              const zotNumber = req.query.zotNumber;
+    - GET `http://localhost:3000/canIGetSomeZots`
 
-              let zotString = '';
-              for (let i = 0; i < zotNumber; i++) {
-                  zotString += 'Zot'
-              }
+    ```
+    app.get('/canIGetSomeZots', (req, res) => {
+    console.log("GET /canIGetSomeZots", req.query)
 
-              res.send(zotString);
-          })
-          ```
-      - Post request with a body
-      TODO: GIF
+        const zotNumber = req.query.zotNumber;
 
-          - POST `http://localhost:3000/canIGetSomeZots`
-          ```
-          app.post('/canIGetSomeZots', (req, res) => {
-              console.log("POST /canIGetSomeZots", req.body)
+        let zotString = '';
+        for (let i = 0; i < zotNumber; i++) {
+            zotString += 'Zot'
+        }
 
-              const zotNumber = req.body.zotNumber;
+        res.send(zotString);
+    })
+    ```
 
-              let zotString = '';
-              for (let i = 0; i < zotNumber; i++) {
-                  zotString += 'Zot'
-              }
+  - Post request with a body
 
-              res.send(zotString);
-          })
-          ```
-  ````
+    - POST `http://localhost:3000/canIGetSomeZots`
 
+    ```
+    app.post('/canIGetSomeZots', (req, res) => {
+        console.log("POST /canIGetSomeZots", req.body)
+
+        const zotNumber = req.body.zotNumber;
+
+        let zotString = '';
+        for (let i = 0; i < zotNumber; i++) {
+            zotString += 'Zot'
+        }
+
+        res.send(zotString);
+    })
+    ```
+    
+  - Resources
+    - [Express quickstart guide](https://expressjs.com/en/starter/installing.html)
+    - [Express routing](https://expressjs.com/en/guide/routing.html)
 # MongoDB
 
-## Setting up MongoDB
+- There's SQL and there's NoSQL, what's the difference?
+- Structure
+  - SQL
+    - Rows and columns
+    - ![](./assets/sql.png)
+  - Mongo NoSQL
+    - Documents (JSON) -> Collections (array of Documents)
+    - ![](./assets/mongo.png)
+- Querying
+  - SQL
+    - `SELECT first_name FROM users WHERE last_name = "Smith"`
+  - Mongo NoSQL
+    - `db.users.find({lastName: "Smith"}, {firstName: 1})`
+
+## Setting up a MongoDB instance in Atlas
 
 1. Register for an account on MongoDB
-2. Skip -> Build `M0 Cluster`
-3. Create username password
-4. Add your current IP address
-5. Open the Mongodb Compass desktop app
-6. Put in the connection URL with ur user and pwd
-   - Connection urls are common way to allow you to connect to DBs
+2. Follow through the 4 steps Atlas suggests to get started
+   - Skip -> Build `M0 Cluster`
+   - Create username & password
+   - Add your current IP address
 
-## Playing with MongoDB
+## Connecting to the MongoDB instance with MongoDB Compass app
 
-1. Create database (linkTreeClone)
-2. Holds a bunch of collections
-3. Create collection (page)
-   - Holds entries of data
-4. Create some data
-   - Mongo object automatically come with a unique id
-   - Boba shops
-   - Food spots
-5. Query it in the shell
-6. Find a page by the title
-   - findOne(filter)
-     - `db.page.findOne({title: “Boba shops”})`
-7. Update the title of the page
-   - findOneAndUpdate(filter, update)
-     - `db.page.findOneAndUpdate({title: "Boba shops"}, {$set : {title: "Boba shops SO COOL"}})`
-8. Add a link to a page
-   - findOneAndUpdate(filter, update)
-     - `db.page.findOneAndUpdate({title: "Boba shops"}, {$push: {links: "another link"}})`
-9. Delete a page
-   - findOneAndDelete(filter)
-     - `db.page.findOneAndDelete({title: “Boba shops})`
-10. Delete a link in a page
-    - findOneAndUpdate(filter, update)
-      - `db.page.findOneAndUpdate({title: "Boba shops"}, {$pull: {links: "another link"}})`
+1. Open up MongoDB Compass app
+2. Paste in your connection string and connect - Don't forget to change the `<dbname>`
+   ![](./assets/mongodb_compass.png)
+
+- MongoDB Compass is just one of many ways to connect to an instance
+  - Other options include MongoDB Atlas online, mongo shell and Mongoose (what we're going to be using in with express)
+  - Database connection string is one of the more common way to connect to databases
+
+## Playing with MongoDB data
+
+1. Create a database: `linkTreeClone`
+2. Create a collection: `page`
+3. Create a document:
+   ```
+   {
+     "title": "Boba shops",
+     "desc": "All the cool spots in Irvine",
+     "creator": "Harrison",
+     "links": ["yelp.com/sharetea", "yelp.com/omomo"]
+   }
+   ```
+
+   - Mongo object automatically come with a unique id (\_id)
+     - ![](./assets/mongodb-compass.png)
+
+4. Querying in the shell (>\_MongoSH Beta)
+   - Example usage
+     - ![](./assets/mongo-query.png)
+   - Find a page by the title
+     - findOne(filter)
+       - `db.page.findOne({title: “Boba shops”})`
+   - Update the title of the page
+     - findOneAndUpdate(filter, update)
+       - `db.page.findOneAndUpdate({title: "Boba shops"}, {$set : {title: "Boba shops SO COOL"}})`
+   - Add a link to a page
+     - findOneAndUpdate(filter, update)
+       - `db.page.findOneAndUpdate({title: "Boba shops"}, {$push: {links: "another link"}})`
+   - Delete a page
+     - findOneAndDelete(filter)
+       - `db.page.findOneAndDelete({title: “Boba shops})`
+   - Delete a link in a page
+     - findOneAndUpdate(filter, update)
+       - `db.page.findOneAndUpdate({title: "Boba shops"}, {$pull: {links: "another link"}})`
+
+- Resources
+  - [MongoDB query operations](https://docs.mongodb.com/manual/tutorial/query-documents/)
 
 ## Mongoose
 
-- Allows node (javascript) to interact with the database (called an ODM)
-  ```
-  $ npm install --save mongoose
-  ```
+1. Install Mongoose npm package
 
-1. Create the connection
    ```
-   $ npm install --save dotenv
+   $ npm install --save mongoose
    ```
 
-- Why its important?
+   - A nice library someone smart made that lets us to connect to the database with javascript
 
-2. Create .gitignore
-   - Make sure the connection string has the db name
+2. Adding Mongoose to our express backend
+
+   ```
+   // import the mongoose package
+   const mongoose = require('mongoose')
+
+   // connect to the mongodb instance with the database connection string
+   mongoose.connect("mongodb+srv://admin:runescape123@cluster0.123.mongodb.net/<dbname>?retryWrites=true&w=majority");
+   ```
+
 3. Create the schema
 
-   ```
-   const mongoose = require('mongoose');
+   - MongoDB is pretty free spirited with JSON
+   - Mongoose wants you to define some schema/shape so it can auto-magically do things for you
 
+   ```
+   // create a mongoose schema
    const pageSchema = new mongoose.Schema({
        title: String,
        description: String,
@@ -257,11 +293,72 @@
        links: [String]
    });
 
-   const pageModel = mongoose.model('page', pageSchema);
-
-   module.exports = pageModel;
+   // create a model, this model gives us a lot of helpful functions to let us create/manipulate objects with this schema
+   const PageModel = mongoose.model('page', pageSchema);
    ```
 
+4. Do interesting things with the Mongoose model
+
+   ```
+   // create an object in the database
+   const pageModelInstance = new PageModel({
+       title: "taco shops",
+       description: "monch",
+       creator: "taco cat",
+       links: ["tacobell.com"]
+   });
+   pageModelInstance.save()
+
+   // Ask interesting questions with queries similar to mongo shell
+   const retrievedPage = await PageModel.findOne({"creator": "Harrison"}, {"title": 1})
+   ```
+
+- Other Resources
+  - [Mongoose documentation](https://mongoosejs.com/docs/index.html)
+
+## Slight detour to talk about environment variables
+
+Previously, we used this snippet to connect to the mongodb instance:
+  ```
+  // connect to the mongodb instance with the database connection string
+  mongoose.connect("mongodb+srv://admin:runescape123@cluster0.123.mongodb.net/<dbname>?retryWrites=true&w=majority");
+  ```
+
+It works great so I'm just gonna commit this code and push it to Github... **BONK!** Unfortunately, haxors are out here to get you and this is one of the common ways secrets get leaked out. How do we commit our code and prevent this??? Environment variables!
+
+- What are environment variables?
+    ```
+    AN_ENV_VARIABLE=123123123
+    KEY=VALUE
+    IS_THIS_PRODUCTION=false
+    GOOGLE_API_KEY=12j3h1g23j12h3123h123jkl1
+    MONGODB_URI="mongodb+srv://admin:runescape123@cluster0.123.mongodb.net/<dbname>?retryWrites=true&w=majority"
+    ```
+    - Its a file (.env) that holds secrets/keys/passwords that your code needs
+    - Not directly tied to the code and won't be commited onto GitHub
+- Install dotenv package
+   ```
+   npm install --save dotenv
+   ```
+  - Automatically finds .env files in your project folder/directory
+- How to use?
+  ```
+  // importing the dotenv package
+  const dotenv = require("dotenv")
+
+  // load in the environment from any .env file
+  dotenv.config()
+
+  // connect to the mongodb instance with the database connection string
+  mongoose.connect(process.env.MONGODB_URI);
+  ```
+- Adding to .gitignore
+  - This file tells git to blocklist any file you want and not keep track of them
+  - Want to add .env files so we don't accidently push them up onto the cloud!!
+    ```
+    /node_modules
+    .env
+    ```
 # Connecting everything together
 
 ## Create the express route to create a page

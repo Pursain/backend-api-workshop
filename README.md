@@ -1,7 +1,7 @@
 ## ICS Student Council. Jam for Change
 # Backend-API-Workshop
 
-# Goals
+## Goals
 - Concepts
     - REST API
     - GET/POST/DELETE HTTP requests
@@ -20,23 +20,24 @@
 - [Node v14](https://nodejs.org/en/download/)
 - [Postman](https://www.postman.com/downloads/)
     - Don’t need make an account
-- [Make a Mongodb account](https://www.mongodb.com/cloud/atlas/register)
+- [Make a MongoDB account](https://www.mongodb.com/cloud/atlas/register)
 - MongoDB Compass (~140 MB)
     - [Windows](https://downloads.mongodb.com/compass/mongodb-compass-1.25.0-win32-x64.exe)
     - [MacOs](https://downloads.mongodb.com/compass/mongodb-compass-1.25.0-darwin-x64.dmg)
 
 ## Why you should care about API
-- Most common way for companies to allow devs to do cool things with their data
-- Wanna authenticate with google? API
-- Wanna get yelp data to show in your app? API
-- Wanna add paypal/credit card payment? API
-- Wanna get a job? API
+- Wanna authenticate with google? [API](https://developers.google.com/identity/protocols/oauth2)
+- Wanna get yelp data to show in your app? [API](https://www.yelp.com/fusion)
+- Wanna add paypal/credit card payment? [API](https://developer.paypal.com/docs/api/overview/)
+- Wanna have a pokedex on demand? [API](https://pokeapi.co/)
+- Wanna get a job? [API](https://www.glowtouch.com/importance-apis-business/#:~:text=APIs%2C%20or%20application%20program%20interfaces,programs%20are%20able%20to%20communicate.)
 
 ## Postman demo examples
-TODO: GIF
-- Random Dogs API: [shttps://dog.ceo/api/breeds/image/random](shttps://dog.ceo/api/breeds/image/random)
+![](./assets/dogapi.gif)
+- Random Dogs API: [https://dog.ceo/api/breeds/image/random](https://dog.ceo/api/breeds/image/random)
 - Dummy Data API: [http://dummy.restapiexample.com/api/v1/employees](http://dummy.restapiexample.com/api/v1/employees)
 - Retrofitting RMP and Webreg API: [https://anteaterdeclassified.azurewebsites.net/api/RMPSummary?course=I%26C%20SCI%2033&instructor=Pattis,%20R.](https://anteaterdeclassified.azurewebsites.net/api/RMPSummary?course=I%26C%20SCI%2033&instructor=Pattis,%20R.)
+- Pokedex: [https://pokeapi.co/api/v2/pokemon/pikachu](https://pokeapi.co/api/v2/pokemon/pikachu)
 - HTTP Codes
     - 200: OK
     - 400: Client related errors

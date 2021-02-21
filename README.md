@@ -1,6 +1,7 @@
 # Backend-API-Workshop - Jam for Change
 
 ### ICS Student Council x Commit the change
+[Workshop event recording](https://www.youtube.com/watch?v=Zfbtl7cBXuI&ab_channel=ICSSCICSStudentCouncilatUCIrvine)
 
 ## Prerequisites for the workshop
 
